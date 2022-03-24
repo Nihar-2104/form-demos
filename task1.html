@@ -1,0 +1,37 @@
+<html>
+<body>
+<h2>JavaScript Array Methods</h2>
+<script>
+
+const words = ["spray", "limit", "elite", "exuberant", "destruction", "present"];
+const print = words.filter(words => words.length>6);
+console.log(print);
+
+const numbers = [1,2,3,4,5,6,7,8,9,10];
+const oddnum = numbers.filter(n=>n%2);
+console.log(oddnum);
+
+const divisibleBy2or5 = numbers.filter(number => number%2 === 0 || number%5 === 0);
+console.log(divisibleBy2or5);
+
+const divisibleBy3AndSquared = numbers.filter(number => number%3 === 0).map(odd => odd*odd);
+console.log(divisibleBy3AndSquared);
+
+const SquaredAnddivisibleBy5 = numbers.map(number => number*number).filter(number => number%5 === 0);
+console.log(SquaredAnddivisibleBy5);
+
+let nums = [11, 22, 33, 46, 75, 86, 97, 98];
+const squaredEvenNums = nums.map(number => number*number).filter(number => number%2 === 0);
+console.log(squaredEvenNums);
+
+const num = [1,2,3,4,5];
+const store = num.map(store => store + 4)
+console.log(store);
+
+const double = numbers.filter(number => number%2 === 0).map(even => even+even).reduce((acc, cur) => acc + cur);
+console.log(double);
+
+</script>
+
+</body>
+</html>

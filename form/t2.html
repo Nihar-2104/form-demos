@@ -1,0 +1,635 @@
+
+<div>
+    <div id="dd">
+        <form action="">
+            <input type="text" id="on" name="order_num" placeholder="Enter Order Number" onkeyup="abc()">
+            <input type="date" id="da" name="order_date" placeholder="Enter Order Date" onclick="return validate(1);">
+
+
+
+            <select name="party_id" id="party_id" onclick="return validate(2);">
+                <option value="0">
+                    Select
+                </option>
+                <option value="Mihir Prajapati">
+                    Mihir Prajapati
+                </option>
+                <option value="Umang Prajapati">
+                    Umang Prajapati
+                </option>
+                <option value="Maulik Prajapati">
+                    Maulik Prajapati
+                </option>
+                <option value="Vishal Prajapati">
+                    Vishal Prajapati
+                </option>
+                <option value="Vidit Prajapati">
+                    Vidit Prajapati
+                </option>
+                <option value="Ankit Prajapati">
+                    Ankit Prajapati
+                </option>
+
+            </select>
+            <input type="text" id="ent" name="order_num" placeholder="Search by order Number">
+            <input type="button" id="at" name="" value="Search" onclick="psearch(1)">
+            <input type="text" id="in" name="order_num" placeholder="Search by party id">
+            <input type="button" id="at" name="" value="Search" onclick="psearch(2)">
+            <input type="text" id="under" name="order_num" placeholder="Search by Category">
+            <input type="button" id="at" name="" value="Search" onclick="psearch(3)">
+            <input type="text" id="beside" name="order_num" placeholder="Edit by Order Number">
+            <input type="button" id="at" name="" value="Edit" onclick="ed()">
+
+            <br /><br />
+            <table border="1">
+                <th>
+                    category
+                </th>
+                <th>Product</th>
+                <th>Quantity</th>
+                <th>Price</th>
+                <th>subtotal</th>
+                <th>Action</th>
+
+                <tbody id="tb">
+
+                </tbody>
+                <tr>
+                    <td colspan="6">
+                        <input type="button" id="at" name="" value="Add New" onclick="return insert(1)">
+                    </td>
+                </tr>
+            </table>
+            <!-- <tr id="ra',t,'"><td><select id="select',t,'" name="category" onclick="return validate(3);"><option value="0">Select</option><option value="1">Stationery</option><option value="2">Vegetables</option><option value="3">Crockery</option><option value="4">Fruits</option><option value="5">Garments</option><option value="6">Hardware</option></select></td><td><input type="text" name="pname"></td><td><input id="quantity',t,'" name="quantity" type="text"></td><td><input id="price',t,'" name="price" type="text"></td><td><input type="text"  id="subtotal',t,'" name="subtotal" ></td><td><input type="button" value="delete"></td></tr> -->
+            <br /><br />
+            <input type="text" name="total" id="tot" placeholder="0.0 Rs" onclick="return validate(1);"" onkeydown="
+                return sub();">
+            <input type="button" id="atp" value="Add" onclick="p(0)">
+            <input type="button" style="display: none; background-color: red;" id="ntp" value="Add" onclick="p(5)">
+            <input type="button" id="view" value="View" onclick="vw()">
+        </form>
+        <script type="text/javascript" src="js/jquery-3.6.0.min.js">
+
+        </script>
+        <script type="text/javascript">
+            function abc() {
+                if (($('[name="order_num"]').val() == '') || $('[name="order_date"]').val() == '') {
+                    if ($('[name="order_num"]').val() == '') {
+                        $('[name="order_date"]').val('');
+                    }
+                    if ($('[name="order_date"]').val() == '') {
+                        $('[name="party_id"]').val(0);
+                    }
+                }
+            }
+            function validate(g) {
+                switch (g) {
+                    case 1:
+                        var k = $('[name="order_num"]').val();
+                        if (k == 0) {
+
+                            return false;
+                        }
+                        else {
+                            return true;
+                        }
+                        break;
+                    case 2:
+                        var j = $('[name="order_date"]').val();
+                        if (j == '') {
+                            alert("Enter Date First");
+                            $('[name="order_date"]').focus();
+                            $('[name="party_id"]').val(0);
+                            return false;
+
+                        }
+                        else {
+                            return true;
+                        }
+                        break;
+                    case 3:
+                        var j = $('[name="party_id"]').val();
+                        if (j == 0) {
+                            alert("Select Category First");
+                            $('[name="category"]').val(0);
+                            return false;
+                        }
+                        else {
+                            return true;
+                        }
+                        break;
+
+                }
+            }
+            var t = 1;
+            function insert(mk) {
+                if (mk == 1) {
+                    if (t != 1) {
+
+                        if ($('#subtotal' + (t - 1)).val() == '') {
+
+                            return false;
+                        }
+                        else {
+                            var a = ['<tr id="ra', t, '"><td ><select id="s', t, '" name="category" onclick="return validate(3);"><option value="-1">Select</option><option value="Stationery">Stationery</option><option value="Vegetables">Vegetables</option><option value="Crockery">Crockery</option><option value="Fruits">Fruits</option><option value="Garments">Garments</option><option value="Hardware">Hardware</option></select></td><td><input type="text" name="pname"id="pname', t, '" onkeypress="return val(1,', t, ');"></td><td><input id="quantity', t, '" name="quantity" type="text"onkeypress="return val(2,', t, ',event);"onkeyup="calc(', t, ')" ></td><td><input id="price', t, '" name="price" type="text"onkeypress="return val(3,', t, ',event);"onkeyup="calc(', t, ')" ></td><td><input type="text"  id="subtotal', t, '" name="subtotal" onkeydown="return sub();" ></td><td><input type="button" value="delete"onclick="removeda(', t, ')" ></td><td><input id="a', t, '" type="button" value="Add" onclick="return insert(2)"></td></tr>'].join('');
+                            $('#tb').append(a);
+                            $('#a' + (t - 1)).addClass('a');
+                            t++;
+                        }
+                    }
+                    else {
+                        if ($('[name="party_id"]').val() == 0) {
+                            return false;
+                        }
+                        else {
+                            var a = ['<tr id="ra', t, '"><td ><select id="s', t, '"name="category" onclick="return validate(3);"><option value="-1">Select</option><option value="Stationery">Stationery</option><option value="Vegetables">Vegetables</option><option value="Crockery">Crockery</option><option value="Fruits">Fruits</option><option value="Garments">Garments</option><option value="Hardware">Hardware</option></select></td><td><input type="text" name="pname"id="pname', t, '" onkeypress="return val(1,', t, ');"></td><td><input id="quantity', t, '" name="quantity" type="text"onkeypress="return val(2,', t, ',event);"onkeyup="calc(', t, ')" ></td><td><input id="price', t, '" name="price" type="text"onkeypress="return val(3,', t, ',event);"onkeyup="calc(', t, ')" ></td><td><input type="text"  id="subtotal', t, '" name="subtotal" onkeydown="return sub();" ></td><td><input type="button" value="delete"onclick="removeda(', t, ')" ></td><td ><input type="button"  id="a', t, '" value="Add" onclick="return insert(2)"></td></tr>'].join('');
+
+
+                            $('#tb').append(a);
+                            $('#a' + (t - 1)).addClass('a');
+                            t++;
+                        }
+                    }
+                }
+                else {
+                    if (t != 1) {
+
+                        if ($('#subtotal' + (t - 1)).val() == '') {
+
+                            return false;
+                        }
+                        else {
+                            var a = ['<tr id="ra', t, '"><td  id="s', t, '"></td><td><input type="text" name="pname"id="pname', t, '" onkeypress="return val(1,', t, ');"></td><td><input id="quantity', t, '" name="quantity" type="text"onkeypress="return val(2,', t, ',event);"onkeyup="calc(', t, ')"></td><td><input id="price', t, '" name="price" type="text"onkeypress="return val(3,', t, ',event);"onkeyup="calc(', t, ')" ></td><td><input type="text"  id="subtotal', t, '" name="subtotal" onkeydown="return sub();" ></td><td><input type="button" value="delete"onclick="removeda(', t, ')" ></td><td><input id="a', t, '" type="button" value="Add" onclick="return insert(2)"></td></tr>'].join('');
+                            $('#tb').append(a);
+                            $('#a' + (t - 1)).addClass('a');
+                            t++;
+                        }
+                    }
+                    else {
+                        if ($('[name="party_id"]').val() == 0) {
+                            return false;
+                        }
+                        else {
+                            var a = ['<tr id="ra', t, '"><td id="s', t, '"></td><td><input type="text" name="pname"id="pname', t, '" onkeypress="return val(1,', t, ');"></td><td><input id="quantity', t, '" name="quantity" type="text"onkeypress="return val(2,', t, ',event);"onkeyup="calc(', t, ')"></td><td><input id="price', t, '" name="price" type="text"onkeypress="return val(3,', t, ',event);"onkeyup="calc(', t, ')"></td><td><input type="text"  id="subtotal', t, '" name="subtotal" onkeydown="return sub();" ></td><td><input type="button" value="delete"onclick="removeda(', t, ')" ></td><td ><input type="button" id="a', t, '" value="Add" onclick="return insert(2)"></td></tr>'].join('');
+                            $('#tb').append(a);
+                            $('#a' + (t - 1)).addClass('a');
+                            t++;
+                        }
+                    }
+                }
+            }
+
+            function val(h, k, event) {
+                switch (h) {
+                    case 1:
+                        var j = $("#s" + k).val();
+                        if (j == -1) {
+                            return false;
+                        }
+
+                        break;
+                    case 2:
+                        var l = $("#pname" + k).val();
+
+                        if (l == '') {
+                            return false;
+                        }
+                        else {
+                            var key = window.event ? event.keyCode : event.which;
+                            if (event.keyCode === 8 || event.keyCode === 46) {
+                                return true;
+                            } else if (key < 48 || key > 57) {
+                                return false;
+                            } else {
+                                return true;
+                            }
+                        }
+                        break;
+                    case 3:
+                        var y = $("#quantity" + k).val();
+                        if (y == '') {
+                            return false;
+                        }
+                        else {
+                            var key = window.event ? event.keyCode : event.which;
+                            if (event.keyCode === 8 || event.keyCode === 46) {
+                                return true;
+                            } else if (key < 48 || key > 57) {
+                                return false;
+                            } else {
+                                return true;
+                            }
+                        }
+                        break;
+                }
+
+
+            }
+            function sub() {
+
+                return false;
+            }
+            function calc(ind) {
+                var quantity = $('#quantity' + ind).val();
+                var price = $('#price' + ind).val();
+                if (quantity == '' || price == '') {
+                    quantity = 0;
+                    price = 0;
+                }
+                var sub = parseInt(quantity) * parseFloat(price);
+                sub = sub.toFixed(2);
+                $('#subtotal' + ind).val(sub);
+
+                totalcalc();
+            }
+            function totalcalc() {
+                var sum = 0;
+                var op = $('[name="subtotal"]');
+                for (var i = 0; i < op.length; i++) {
+                    if (op[i].value != '') {
+                        sum = sum + parseFloat(op[i].value);
+                    }
+                }
+
+                $('[name="total"]').val(sum);
+            }
+            function removeda(arg) {
+                $('#ra' + arg).remove();
+                totalcalc();
+            }
+            class a {
+                category;
+                product_name;
+                quantity;
+                price;
+                subtotal;
+                order_no;
+                date;
+                party;
+                total;
+                aq(f, g, h, l) {
+                    this.order_no = f;
+                    this.date = g;
+                    this.party = h;
+                    this.total = l;
+
+                }
+                constructor(k, b, c, d, e) {
+                    this.category = k;
+                    this.product_name = b;
+                    this.quantity = c;
+                    this.price = d;
+                    this.subtotal = e;
+                }
+            }
+
+            var un = [];
+            var temp = [];
+            var man = [];
+
+            var ki;
+            var sm = [];
+            var mt = true;
+            var jam=[];
+
+
+
+            function p(arg) {
+                if (arg==5) {
+                  
+                  if(jam[0]!=-1)
+                  {
+                      
+                    // var a = ['<tr id="ra', m, '"><td><select id="s', m, '"name="category" onclick="return validate(3);"><option value="-1">Select</option><option value="Stationery">Stationery</option><option value="Vegetables">Vegetables</option><option value="Crockery">Crockery</option><option value="Fruits">Fruits</option><option value="Garments">Garments</option><option value="Hardware">Hardware</option></select></td><td><input type="text" name="pname"id="pname', m, '" onkeypress="return val(1,', m, ');"></td><td><input id="quantity', m, '" name="quantity" type="text"onkeypress="return val(2,', m, ',event);"onkeyup="calc(', m, ')"></td><td><input id="price', m, '" name="price" type="text"onkeypress="return val(3,', m, ',event);"onkeyup="calc(', m, ')" ></td><td><input type="text"  id="subtotal', m, '" name="subtotal" onkeydown="return sub();" ></td><td><input type="button" value="delete"onclick="removeda(', m, ')" ></td><td><input id="a', m, '" type="button" value="Add" onclick="return insert(2)"></td></tr>'].join('');
+                      var kb=jam[0];
+                      var mb=jam[1];
+                      alert(kb);
+                      alert(mb);
+                    un[kb].other[0].order_no=$("#on").val();
+                    un[kb].other[0].date=$("#da").val();
+                    un[kb].other[0].party=$("#party_id").val();
+                    un[kb].other[0].total=$("#tot").val();
+
+                    for (var i = 0; i < un[kb].wo.length; i++) {
+
+                       un[kb].wo[i].category= $("#s" + i).val();
+                       un[kb].wo[i].product_name= $("#pname" + i).val();
+                       un[kb].wo[i].quantity= $("#quantity" + i).val();
+                       un[kb].wo[i].price= $("#price" + i).val();
+                       un[kb].wo[i].subtotal= $("#subtotal" + i).val();
+                    }
+                  }
+                  $("#atp").removeClass("a");
+                    $("#ntp").removeClass("b");
+                  alert("aab");
+                  spa( (un[kb].wo.length+1));
+                }
+                else {
+
+                    var piu = $("#party_id").val();
+                    if (piu == 0) {
+                        return false;
+                    }
+                    else {
+
+                        if (mt == true) {
+                            for (var i = 1; i < t; i++) {
+
+                                if ($("#s" + i).val() == '') {
+                                    var jk = $("#s" + (i - 1)).val();
+                                    $("#s" + i).val(jk);
+                                }
+                                ki = $("#s" + i).val();
+                                temp.push(ki);
+                            }
+                        }
+                        else {
+                            for (var i = sm[(sm.length - 1)]; i < t; i++) {
+
+                                if ($("#s" + i).val() == '') {
+                                    var jk = $("#s" + (i - 1)).val();
+                                    $("#s" + i).val(jk);
+                                }
+                                ki = $("#s" + i).val();
+                                temp.push(ki);
+                            }
+                        }
+
+                        // for (var i = 0; i < temp.length; i++) {
+
+                        //     // value="1">Stationery</option><option value="2">Vegetables</option><option value="3">Crockery</option><option value="4">Fruits</option><option value="5">Garments</option><option value="6">Hardware
+                        //     if (temp[i] == 1) {
+                        //         temp[i] = "Stationery";
+                        //     }
+                        //     else if (temp[i] == 2) {
+                        //         temp[i] = 'Vegetables';
+                        //     }
+                        //     else if (temp[i] == 3) {
+                        //         temp[i] = 'Crockery';
+                        //     }
+                        //     else if (temp[i] == 4) {
+                        //         temp[i] = 'Fruits';
+                        //     }
+                        //     else if (temp[i] == 5) {
+                        //         temp[i] = 'Garments';
+                        //     }
+                        //     else if (temp[i] == 6) {
+                        //         temp[i] = 'Hardware';
+                        //     }
+                        //     else {
+
+                        //     }
+                        // }
+
+                        var k;
+                        var b;
+                        var c;
+                        var d;
+                        var e;
+                        var gg;
+                        var wo = [];
+                        // $("#s" + i).val();
+                        if (mt == true) {
+                            for (var i = 1; i <= (t - 1); i++) {
+                                k = temp[i - 1];
+                                b = $("#pname" + i).val();
+                                if (b == '') {
+                                    continue;
+                                }
+                                c = $("#quantity" + i).val();
+                                d = $("#price" + i).val();
+                                e = $("#subtotal" + i).val();
+                                gg = new a(k, b, c, d, e);
+
+                                wo.push(gg);
+                            }
+                        }
+                        else {
+                            for (i = sm[(sm.length - 1)]; i <= (t - 1); i++) {
+                                k = temp[i - 1];
+                                b = $("#pname" + i).val();
+                                if (b == '') {
+                                    continue;
+                                }
+                                c = $("#quantity" + i).val();
+                                d = $("#price" + i).val();
+                                e = $("#subtotal" + i).val();
+                                gg = new a(k, b, c, d, e);
+                                wo.push(gg);
+                            }
+                        }
+                        // wo.push(man);
+                        sm.push(t);
+                        var other = [];
+                        var f = $("#on").val();
+                        var g = $("#da").val();
+                        var h = $("#party_id").val();
+                        var l = $("#tot").val();
+                        var mm = new a();
+                        mm.aq(f, g, h, l);
+                        other.push(mm);
+                        var hl = { "other": other, "wo": wo };
+                        un.push(hl);
+                        spa(t);
+                        alert(JSON.stringify(un));
+                        mt = false;
+
+
+                        if ((qu - 1) != 0) {
+                            var ce = (qu - 1);
+                            $("#demo" + ce).addClass('a');
+                            $("#tdl" + ce).addClass('a');
+                            $("#tdi" + ce).addClass('a');
+                        }
+                    }
+                }
+            }
+            function spa(k) {
+                for (var i = 1; i <= (k - 1); i++) {
+                    $('#ra' + i).remove();
+                    totalcalc();
+                }
+                $("#on").val('');
+                $("#da").val('');
+                $("#party_id").val(0);
+                $("#tot").val('');
+            }
+            var qu = 1;
+            function vw() {
+
+                var df = ['<div id="tdi', qu, '"><table border="1" id="tdl', qu, '"><th>OrderNumber</th><th>Date</th><th>Party_id</th><th>Category</th><th>ProductName</th><th>Quantity</th><th>Price</th><th>subtotal</th><th>Total</th><tbody id="demo', qu, '"></tbody></table></br></br></br></br></br></br></div>'].join('');
+
+
+
+                $("#dd").append(df);
+                var ds = 0;
+                for (var i = 0; i < un.length; i++) {
+                    for (var j = 0; j < un[i].wo.length; j++) {
+                        var kj = ['<tr ><td></td><td></td><td></td><td>', un[i].wo[j].category, '</td><td>', un[i].wo[j].product_name, '</td><td>', un[i].wo[j].quantity, '</td><td>', un[i].wo[j].price, '</td><td>', un[i].wo[j].subtotal, '</td><td></td></tr>'].join('');
+                        $("#demo" + qu).append(kj);
+
+
+                    }
+                    var kb = ['<tr><td>', un[i].other[0].order_no, '</td><td>', un[i].other[0].date, '</td><td>', un[i].other[0].party, '</td><td  colspan="5"></td><td>', un[i].other[0].total, '</td></tr>'].join('');
+                    $("#demo" + qu).append(kb);
+
+                }
+
+                if ((qu - 1) != 0) {
+                    var ce = (qu - 1);
+                    $("#demo" + ce).addClass('a');
+                    $("#tdl" + ce).addClass('a');
+                    $("#tdi" + ce).addClass('a');
+                }
+                qu++;
+            }
+
+            var tf = 1;
+            function psearch(arg) {
+
+                switch (arg) {
+
+                    case 1:
+                        var k = -1;
+                        var ak = $("#ent").val();
+                        for (var i = 0; i < un.length; i++) {
+                            if (ak == un[i].other[0].order_no) {
+                                k = i;
+                            }
+                        }
+                        if (k != -1) {
+                            alert(un[k].other[0].order_no);
+
+
+                            var tm = ['<div id="tr', tf, '"><table id="" border="1"><th>Order No</th><th>Date</th><th>Party</th><th>Category</th><th>Product</th><th>Quantity</th><th>Price</th><th>Sub Total</th><th>Total</th><tbody id="pst', tf, '"></tbody></table></div>'].join("");
+                            $("#dd").append(tm);
+
+                            for (var i = 0; i < un[k].wo.length; i++) {
+                                var dj = ['<tr><th></th><th></th><th></th><th>', un[k].wo[i].category, '</th><th>', un[k].wo[i].product_name, '</th><th>', un[k].wo[i].quantity, '</th><th>', un[k].wo[i].price, '</th><th>', un[k].wo[i].subtotal, '</th><th></th></tr>'].join("");
+                                $("#pst" + tf).append(dj);
+
+                            }
+                            var dw = ['<tr><th>', un[k].other[0].order_no, '</th><th>', un[k].other[0].date, '</th><th>', un[k].other[0].party, '</th><th></th><th></th><th></th><th></th><th></th><th>', un[k].other[0].total, '</th></tr>'].join("");
+                            $("#pst" + tf).append(dw);
+                        }
+                        break;
+
+                    case 2:
+
+                        var k = [];
+                        var ak = $("#in").val();
+                        for (var i = 0; i < un.length; i++) {
+                            if (ak == un[i].other[0].party) {
+                                k.push(i);
+                            }
+                        }
+                        if (k.length != 0) {
+                            var tm = ['<div id="tr', tf, '"><table id="" border="1"><th>Order No</th><th>Date</th><th>Party</th><th>Category</th><th>Product</th><th>Quantity</th><th>Price</th><th>Sub Total</th><th>Total</th><tbody id="pst', tf, '"></tbody></table></div>'].join("");
+                            $("#dd").append(tm);
+
+                            for (var j = 0; j < k.length; j++) {
+                                for (var m = 0; m < un[k[j]].wo.length; m++) {
+                                    var dj = ['<tr><th></th><th></th><th></th><th>', un[k[j]].wo[m].category, '</th><th>', un[k[j]].wo[m].product_name, '</th><th>', un[k[j]].wo[m].quantity, '</th><th>', un[k[j]].wo[m].price, '</th><th>', un[k[j]].wo[m].subtotal, '</th><th></th></tr>'].join("");
+                                    $("#pst" + tf).append(dj);
+                                }
+                                var dw = ['<tr><th>', un[k[j]].other[0].order_no, '</th><th>', un[k[j]].other[0].date, '</th><th>', un[k[j]].other[0].party, '</th><th></th><th></th><th></th><th></th><th></th><th>', un[k[j]].other[0].total, '</th></tr>'].join("");
+                                $("#pst" + tf).append(dw);
+                            }
+                        }
+                        break;
+
+                    case 3:
+                        var k = [];
+                        var l = [];
+                        var ak = $("#under").val();
+                        for (var i = 0; i < un.length; i++) {
+                            for (var j = 0; j < un[i].wo.length; j++) {
+                                if (ak == un[i].wo[j].category) {
+                                    k.push(i);
+                                    alert(i);
+                                    l.push(j);
+                                    alert(j);
+                                }
+                            }
+                        }
+
+                        if (k.length != 0) {
+                            var tm = ['<div id="tr', tf, '"><table id="" border="1"><th>Order No</th><th>Date</th><th>Party</th><th>Category</th><th>Product</th><th>Quantity</th><th>Price</th><th>Sub Total</th><th>Total</th><tbody id="pst', tf, '"></tbody></table></div>'].join("");
+                            $("#dd").append(tm);
+                        }
+                        for (var j = 0; j < k.length; j++) {
+
+                            var dw = ['<tr><th>', un[k[j]].other[0].order_no, '</th><th>', un[k[j]].other[0].date, '</th><th>', un[k[j]].other[0].party, '</th><th>', un[k[j]].wo[l[j]].category, '</th><th>', un[k[j]].wo[l[j]].product_name, '</th><th>', un[k[j]].wo[l[j]].quantity, '</th><th>', un[k[j]].wo[l[j]].price, '</th><th>', un[k[j]].wo[l[j]].subtotal, '</th><th>', un[k[j]].other[0].total, '</th></tr>'].join("");
+                            $("#pst" + tf).append(dw);
+                        }
+                        break;
+
+                }
+                if ((tf - 1) != 0) {
+                    var ce = (tf - 1);
+                    $("#tr" + ce).addClass('a');
+
+                }
+                tf++;
+            }
+            var m = 1;
+            function ed() {
+                var pk=[];
+                for (var i = 1; i <= (t - 1); i++) {
+                    $('#ra' + i).remove();
+                    totalcalc();
+                }
+                var k = -1;
+                var ak = $("#beside").val();
+                for (var i = 0; i < un.length; i++) {
+                    if (ak == un[i].other[0].order_no) {
+                        k = i;
+                    }
+                }
+                jam[0]=k;
+                if (k != -1) {
+                    
+                    $("#on").val(un[k].other[0].order_no)
+                    $("#da").val(un[k].other[0].date)
+                    $("#party_id").val(un[k].other[0].party)
+                    $("#tot").val(un[k].other[0].total);
+                    var m = 0;
+                    for (var i = 0; i < un[k].wo.length; i++) {
+                        var a = ['<tr id="ra', m, '"><td><select id="s', m, '"name="category" onclick="return validate(3);"><option value="-1">Select</option><option value="Stationery">Stationery</option><option value="Vegetables">Vegetables</option><option value="Crockery">Crockery</option><option value="Fruits">Fruits</option><option value="Garments">Garments</option><option value="Hardware">Hardware</option></select></td><td><input type="text" name="pname"id="pname', m, '" onkeypress="return val(1,', m, ');"></td><td><input id="quantity', m, '" name="quantity" type="text"onkeypress="return val(2,', m, ',event);"onkeyup="calc(', m, ')"></td><td><input id="price', m, '" name="price" type="text"onkeypress="return val(3,', m, ',event);"onkeyup="calc(', m, ')" ></td><td><input type="text"  id="subtotal', m, '" name="subtotal" onkeydown="return sub();" ></td><td><input type="button" value="delete"onclick="removeda(', m, ')" ></td><td><input id="a', m, '" type="button" value="Add" onclick="return insert(2)"></td></tr>'].join('');
+                        $('#tb').append(a);
+                        $('#tb' + (m - 1)).addClass('a');
+
+
+                        $("#s" + m).val(un[k].wo[i].category);
+                        $("#pname" + m).val(un[k].wo[i].product_name);
+                        $("#quantity" + m).val(un[k].wo[i].quantity);
+                        $("#price" + m).val(un[k].wo[i].price);
+                        $("#subtotal" + m).val(un[k].wo[i].subtotal);
+                        jam[1]=m;
+                        m++;
+
+                        $("#atp").addClass("a");
+                        $("#ntp").addClass("b");
+                    }
+                }
+                else {
+                    alert("Order Number does not exist");
+                }
+                return pk;
+
+
+            }
+
+
+        </script>
+        <style>
+            .a {
+                display: none;
+                height: 0px;
+            }
+            .b{
+                display: inline-block !important; 
+            }
+        </style>
+    </div>
+</div>
